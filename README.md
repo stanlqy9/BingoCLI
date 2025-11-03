@@ -52,7 +52,7 @@ BingoCLI/
 │  └─ test_draw.c
 ├─ Makefile
 └─ README.md
-
+```
 
 ## 🧩 Module Design Descriptions (High-Level Only)
 
