@@ -76,17 +76,16 @@ Each section should include:
 Explain the goal of this module (e.g., generating randomized Bingo number draws).
 
 #### 📥 Inputs / 📤 Outputs
-- What input(s) does this module need? (e.g., total numbers, optional seed)
+- What input(s) does this module need?
 - What output(s) will it produce? (e.g., a full shuffled list of draws or one number at a time)
 
 #### ⚙️ Internal Design (High-Level)
 - How will the module represent and randomize numbers (1–75)?
 - How will it ensure that numbers are not repeated?
-- How will the seed affect reproducibility?
 - Will the module generate all numbers at once or one per function call?
 
 #### 🚨 Error Handling
-- How will it conceptually handle invalid input (e.g., bad seed, wrong list size)?
+- How will it conceptually handle invalid input ?
 - What should happen if generation fails?
 
 #### 🔗 Integration Notes
