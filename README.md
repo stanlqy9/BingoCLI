@@ -103,21 +103,42 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 #### 📥 Inputs / 📤 Outputs
 - What data does this module receive? (e.g., card data, drawn numbers)
 - What results does it return? (e.g., Bingo detected, card index)
+  Input:
+- It recieves bingo card structure from csv.c
+- The current number that is drawn from draw.c
+  Output:
+- A Bingo or Loss
+- The card being updated when a number is marked
 
 #### ⚙️ Internal Design (High-Level)
 - How will Bingo cards and marked states be represented conceptually?
 - How will marking work when a number is drawn?
 - How will the module detect Bingo (rows, columns, diagonals)?
 - How will it track the overall game status or winning card?
+- Bingo Cards will be represented as a 5x5 array of numbers with another 5x5 boolean array that marks whether a number has been drawn.
+- When a number is drawn, it will scan all the cards and mark any of them true.
+- It will detect a Bingo by:
+- Checking the Rows: check to see if 5 are marked(same with the others)
+- Checking the Columns
+- Checking Diagonally
+- It will track the overall game status by recording which card has BINGO and it will tell main.c
+- Maybe with variable that says if the game is ongoing, won
 
 #### 🚨 Error Handling
 - What assumptions does it make about valid input (e.g., 5x5 card)?
 - How will it handle invalid or missing card data?
 - How will it behave if no Bingo is found?
-
+- Assumptions:
+- The cards should be 5x5 grids and be in correct format
+- The center of the grid has the "free" mark
+- Errors:
+- Handling Invalid/missing card data, it will be ignored
+- Any duplicate or out of range numbers drawn will be skipped
+- If no bingo is found, it will tell us that there is no winner.
 #### 🔗 Integration Notes
 - When should `main.c` call this module?
 - What does this module provide back to the main program or other modules?
+- 
 
 ---
 
