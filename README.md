@@ -122,23 +122,27 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 - Checking the Columns
 - Checking Diagonally
 - It will track the overall game status by recording which card has BINGO and it will tell main.c
-- Maybe with variable that says if the game is ongoing, won
+- Maybe with variable that says if the game is won or still playing.
 
 #### 🚨 Error Handling
 - What assumptions does it make about valid input (e.g., 5x5 card)?
 - How will it handle invalid or missing card data?
 - How will it behave if no Bingo is found?
-- Assumptions:
+
+Assumptions that are made:
 - The cards should be 5x5 grids and be in correct format
 - The center of the grid has the "free" mark
-- Errors:
+- Errors that can happen:
 - Handling Invalid/missing card data, it will be ignored
 - Any duplicate or out of range numbers drawn will be skipped
 - If no bingo is found, it will tell us that there is no winner.
 #### 🔗 Integration Notes
 - When should `main.c` call this module?
 - What does this module provide back to the main program or other modules?
-- 
+
+- 'main.c' should call this module when 'draw.c' is done drawing a number
+-  This module provides an update to the cards and whether we have a winner or not.
+- This module, once a winner(BINGO) is found, signals 'main.c' to print an output(winner or no winner)
 
 ---
 
