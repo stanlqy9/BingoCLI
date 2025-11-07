@@ -132,7 +132,7 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 Assumptions that are made:
 - The cards should be 5x5 grids and be in correct format
 - The center of the grid has the "free" mark
-- Errors that can happen:
+Errors that can happen:
 - Handling Invalid/missing card data, it will be ignored
 - Any duplicate or out of range numbers drawn will be skipped
 - If no bingo is found, it will tell us that there is no winner.
