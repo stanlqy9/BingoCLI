@@ -153,24 +153,48 @@ Errors that can happen:
 
 #### 🧠 Purpose
 Summarize the main purpose of this module (e.g., reading Bingo cards from a CSV file).
+Read a bingo from a CSV file and turn them into a design that can be used. There will be one or more 5x5 bingo cards and it will be ensured that they are correctly formatted.
+
 
 #### 📥 Inputs / 📤 Outputs
 - What input does this module process? (e.g., CSV file path)
 - What output does it produce? (e.g., list of cards, total number of cards loaded)
+- Input:
+- it receives a CSV file path from the user
+- Every line contains 5 comma separated values that represent the row of a bingo card
+- Output: A bingo with the total amount of cards
+
 
 #### ⚙️ Internal Design (High-Level)
 - How will the file be read conceptually (line by line, buffer, etc.)?
 - How will the module interpret and convert CSV text into card data?
 - How will it identify where one card ends and another begins?
 - What validation checks will it perform (e.g., 5 rows per card, 5 values per row)?
+- a file will open and line by line it will be read with a text buffer.
+- Each line is split by commas and every five lines it will turn into a bingo card.
+- if a line is blank then the card is complete.
+- Every value gets turned into an integer and “FREE” spaces are marked as special.
+- it will check that each row only has 5 inputs and they are all within 1-75. Also that every card has five rows before it stores it.
+
 
 #### 🚨 Error Handling
 - How will it handle missing files, malformed rows, or non-numeric data?
 - What will it do when no valid cards are found?
+- if the file cant be opened then no cards will be returned.
+- any lines with missing our extra values will be invalid
+- those cards will be skipped and if no cards are found then the main program will get signaled and error
+- if the file cant be opened then no cards will be returned.
+- any lines with missing our extra values will be invalid
+- those cards will be skipped and if no cards are found then the main program will get signaled and error
+
+
 
 #### 🔗 Integration Notes
 - How will `main.c` call this module during startup?
 - What does the rest of the program need to know about how data is stored or returned?
+- the module will get called by the main program to load the bingo cards.
+- the cards will be loaded and it will receive both arrays of cards.
+- the program knows that every card is a 5x5 grid and it gets ready to mark them
 
 ---
 
