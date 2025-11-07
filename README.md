@@ -103,10 +103,10 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 #### 📥 Inputs / 📤 Outputs
 - What data does this module receive? (e.g., card data, drawn numbers)
 - What results does it return? (e.g., Bingo detected, card index)
-  Input:
+Input:
 - It recieves bingo card structure from csv.c
 - The current number that is drawn from draw.c
-  Output:
+Output:
 - A Bingo or Loss
 - The card being updated when a number is marked
 
