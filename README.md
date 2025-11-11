@@ -104,20 +104,47 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 - What data does this module receive? (e.g., card data, drawn numbers)
 - What results does it return? (e.g., Bingo detected, card index)
 
+- Input:
+- It recieves bingo card structure from csv.c
+- The current number that is drawn from draw.c
+
+- Output:
+- A Bingo or Loss
+- The card being updated when a number is marked
+
 #### ⚙️ Internal Design (High-Level)
 - How will Bingo cards and marked states be represented conceptually?
 - How will marking work when a number is drawn?
 - How will the module detect Bingo (rows, columns, diagonals)?
 - How will it track the overall game status or winning card?
+- Bingo Cards will be represented as a 5x5 array of numbers with another 5x5 boolean array that marks whether a number has been drawn.
+- When a number is drawn, it will scan all the cards and mark any of them true.
+- It will detect a Bingo by:
+- Checking the Rows: check to see if 5 are marked(same with the others)
+- Checking the Columns
+- Checking Diagonally
+- It will track the overall game status by recording which card has BINGO and it will tell main.c
+- Maybe with variable that says if the game is won or still playing.
 
 #### 🚨 Error Handling
 - What assumptions does it make about valid input (e.g., 5x5 card)?
 - How will it handle invalid or missing card data?
 - How will it behave if no Bingo is found?
 
+Assumptions that are made:
+- The cards should be 5x5 grids and be in correct format
+- The center of the grid has the "free" mark
+Errors that can happen:
+- Handling Invalid/missing card data, it will be ignored
+- Any duplicate or out of range numbers drawn will be skipped
+- If no bingo is found, it will tell us that there is no winner.
 #### 🔗 Integration Notes
 - When should `main.c` call this module?
 - What does this module provide back to the main program or other modules?
+
+- 'main.c' should call this module when 'draw.c' is done drawing a number
+-  This module provides an update to the cards and whether we have a winner or not.
+- This module, once a winner(BINGO) is found, signals 'main.c' to print an output(winner or no winner)
 
 ---
 
@@ -126,24 +153,48 @@ Describe the overall goal of this module (e.g., handling game state, marking num
 
 #### 🧠 Purpose
 Summarize the main purpose of this module (e.g., reading Bingo cards from a CSV file).
+Read a bingo from a CSV file and turn them into a design that can be used. There will be one or more 5x5 bingo cards and it will be ensured that they are correctly formatted.
+
 
 #### 📥 Inputs / 📤 Outputs
 - What input does this module process? (e.g., CSV file path)
 - What output does it produce? (e.g., list of cards, total number of cards loaded)
+- Input:
+- it receives a CSV file path from the user
+- Every line contains 5 comma separated values that represent the row of a bingo card
+- Output: A bingo with the total amount of cards
+
 
 #### ⚙️ Internal Design (High-Level)
 - How will the file be read conceptually (line by line, buffer, etc.)?
 - How will the module interpret and convert CSV text into card data?
 - How will it identify where one card ends and another begins?
 - What validation checks will it perform (e.g., 5 rows per card, 5 values per row)?
+- a file will open and line by line it will be read with a text buffer.
+- Each line is split by commas and every five lines it will turn into a bingo card.
+- if a line is blank then the card is complete.
+- Every value gets turned into an integer and “FREE” spaces are marked as special.
+- it will check that each row only has 5 inputs and they are all within 1-75. Also that every card has five rows before it stores it.
+
 
 #### 🚨 Error Handling
 - How will it handle missing files, malformed rows, or non-numeric data?
 - What will it do when no valid cards are found?
+- if the file cant be opened then no cards will be returned.
+- any lines with missing our extra values will be invalid
+- those cards will be skipped and if no cards are found then the main program will get signaled and error
+- if the file cant be opened then no cards will be returned.
+- any lines with missing our extra values will be invalid
+- those cards will be skipped and if no cards are found then the main program will get signaled and error
+
+
 
 #### 🔗 Integration Notes
 - How will `main.c` call this module during startup?
 - What does the rest of the program need to know about how data is stored or returned?
+- the module will get called by the main program to load the bingo cards.
+- the cards will be loaded and it will receive both arrays of cards.
+- the program knows that every card is a 5x5 grid and it gets ready to mark them
 
 ---
 
