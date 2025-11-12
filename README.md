@@ -72,25 +72,37 @@ Each section should include:
 ### 🎲 `draw.c` — Draw Generation Module  
 **Owner:** Danya  
 
-#### 🧠 Purpose
-Explain the goal of this module (e.g., generating randomized Bingo number draws).
+### 🧠 Purpose: 
 
-#### 📥 Inputs / 📤 Outputs
-- What input(s) does this module need?
-- What output(s) will it produce? (e.g., a full shuffled list of draws or one number at a time)
+The draw module is responsible for generating randomized Bingo numbers between 1 and 75. It ensures that each number is unique within a single game session. It separate the random number generation logic from the rest of the program, making the system much easier to test, maintain and integrate with other components like the game logic and CSV card reader. 
 
-#### ⚙️ Internal Design (High-Level)
-- How will the module represent and randomize numbers (1–75)?
-- How will it ensure that numbers are not repeated?
-- Will the module generate all numbers at once or one per function call?
+### 📥 Inputs:
+- An internal list or array containing all of the possible Bingo numbers (1 to 75).
+- The random number generator is already seeded using the current system time.
 
-#### 🚨 Error Handling
-- How will it conceptually handle invalid input ?
-- What should happen if generation fails?
 
-#### 🔗 Integration Notes
-- When and how will `main.c` use this module?
-- What will other modules (like `game.c`) expect to receive from it?
+### 📤 Outputs:
+- A single randomized Bingo number each time a draw is requested. 
+- The module will stop producing numbers once all 75 have been drawn.
+
+### ⚙️ Internal Design (HIGH Level):
+
+The module begins by creating a list from 1 to 75. Then uses a randomization algorithm to shuffle these numbers into a random order. When it is drawn, the module returns the next value from the shuffled list, ensuring that no number is repeated. 
+
+The module will likely keep an internal index counter that tracks how many numbers have already been drawn. Each time a draw is requested, the next available number is returned, and the count is updated. Once all of the numbers are used, the module signals that no more draws remain. This kind of approach avoids duplicates and keeps the drawing process efficient and predictable . 
+
+### 🚨 Error Handling: 
+
+If a draw is requested after all 75 numbers have been drawn, the module will return a special value IE: 0, or a signal that indicates no more numbers are available for a draw. If the module fails to initialize properly (i.e. memory or  internal setup etc), it will print an error message to standard error. The design assumes normal conditions will rarely cause errors  but it would still include simple checks to make the model predictable and robust. 
+
+
+### 🔗 Integration Notes: 
+
+The `main.c` file will initialize the draw system once at the start of the game, calling a setup function to seed and shuffle the numbers. During gameplay, `main.c` or `game.c` will repeatedly call a function from this module to get the next number. 
+
+The `game.c` module will use the numbers to mark spaces on the Bingo cards, while the testing module `test_draw.c` can use the same functions to confirm that numbers are correctly randomized and not repetitive. In return this keeps the random number logic contained and easy to verify. 
+
+
 
 ---
 
