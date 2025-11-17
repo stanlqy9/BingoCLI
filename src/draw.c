@@ -4,9 +4,9 @@
 #include "../include/types.h"
 
 /* Static state for the draw sequence */
-static int draw_pool[BINGO_MAX];        // Array of numbers 1-75
-static int draw_index = 0;               // Current position in draw_pool
-static bool initialized = false;         // Whether the draw system is ready
+static int draw_pool[BINGO_MAX]; // Array of numbers 1-75
+static int draw_index = 0;       // Current position in draw_pool
+static bool initialized = false; // Whether the draw system is ready
 
 /**
  * shuffle_array - Shuffle an array
@@ -17,7 +17,30 @@ static bool initialized = false;         // Whether the draw system is ready
  */
 static void shuffle_array(int *array, int size)
 {
-    /* TODO: Implement shuffle algorithm */
+    /* Job: Implement shuffle algorithm */
+    // Fisher yates shuffle
+
+    // start from last element and move backwards towards index 0
+    for (int i = size - 1; i > 0; i++)
+    {
+
+        // picking a random index(j) from 0 to i
+        int j = rand() % (i + 1);
+
+        // swap array[i] with array[j]
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    /*
+    - Each iteration ensure that the element positon of i
+    is swapped with a random element from the unshuffled
+    portions of the array (0 to j), gets a uniformaly random
+    value.
+    - Ensuring every element has a equal chance of ending up
+    in any position, producing a uniform shuffle.
+    */
 }
 
 /**
@@ -26,8 +49,45 @@ static void shuffle_array(int *array, int size)
  * Sets up the draw pool with numbers 1-75 and shuffles them.
  */
 void init_draw_sequence(void)
+
 {
-    /* TODO: Populate draw_pool with 1-75, shuffle, initialize state */
+    /* Job: Populate draw_pool with 1-75, shuffle, initialize state */
+
+    // if initalization has already happened once, do nothing.
+    if (initialized)
+    {
+        return;
+    }
+
+    // seed RNG using the current time
+    // making sure each program run produces a random sequence.
+    srand(time(NULL));
+
+    // fill the draw_pool array with numbers 1 to 75
+    // represent all possible BINGO draw before shuffling
+
+    for (int i = 0; i < BINGO_MAX; i++)
+    {
+        draw_pool[i] = i + 1;
+    }
+
+    // shuffle for random order in draw_pool.
+    shuffle_array(draw_pool, BINGO_MAX);
+
+    // index reset, drawing will start the first shuffled number.
+    draw_index = 0;
+
+    // making sequence as fully inialized so the function does not run again.
+
+    initialized = true;
+
+    /*
+    - init_draw_seqeunce - Initalize the draw system.
+    - fills the draw pool with numbers from 1 to 75, shuffles them and 
+    then resets the index.
+    -runs only one per program excecution in order to avoid,
+    rerandomizing an already initalozed sequence.
+    */
 }
 
 /**
@@ -40,7 +100,39 @@ void init_draw_sequence(void)
  */
 int get_next_draw(void)
 {
-    /* TODO: Return next number from draw_pool and advance index */
+    /* Job: Return next number from draw_pool and advance index */
+    
+    // if initalization has already happened once, do nothing.
+
+    if(!initialized)
+    {
+        return -1;
+    }
+
+    //if all the BINGO_MAX numbers have been drawn, nothing left to return
+    if(draw_index >= BINGO_MAX)
+    {
+        return -1;
+    }
+    
+    //get the next number from the shuffle pool
+    int next = draw_pool[draw_index];
+
+    //index is moved forward for the next draw.
+    draw_index++;
+
+    //selected number is returned.
+    return next;
+
+    /*
+    - get_next_draw - return the next number in the shuffled draw seqeuence.
+    - Returns -1 of the system is not initalized or if all numbers have been drawn
+    otherise it returns draw_pool[draw_index] and moves foward with index 
+    for the next call.
+    */
+    
+
+
 }
 
 /**
@@ -62,4 +154,3 @@ int get_draw_count(void)
 {
     /* TODO: Return how many draws have been made */
 }
-
