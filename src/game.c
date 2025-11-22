@@ -12,6 +12,8 @@
  */
 void init_card(BingoCard *card, int card_id)
 {
+    card.card_id = card_id;
+    
     for(int r =0; r<5; r++)
         {
             for( int c =0; c<6;c++)
@@ -19,6 +21,8 @@ void init_card(BingoCard *card, int card_id)
                     
                 }
         }
+    card.numbers[2][2] =-1;
+    card.marked[2][2] = true;
     
     /* TODO: Initialize card with ID, set all cells unmarked, mark center FREE space */
 }
