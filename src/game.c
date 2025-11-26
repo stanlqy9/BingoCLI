@@ -110,6 +110,7 @@ static bool check_diagonal(const BingoCard *card)
         {
             rightSide = false;
         }
+    }
 
         return leftSide || rightSide;
     /* TODO: Check both diagonals for complete marking */
