@@ -1,5 +1,5 @@
 #include <stdio.h>
-#inlcude <stdbool.h>
+#include <stdbool.h>
 #include "../include/game.h"
 
 /**
@@ -12,17 +12,20 @@
  */
 void init_card(BingoCard *card, int card_id)
 {
-    card.card_id = card_id;
+    //initializes all cells of cards unmarked
+    (*card).card_id = card_id;
     
-    for(int r =0; r<5; r++)
+    for(int r =0; r < CARD_SIZE; r++)
         {
-            for( int c =0; c<6;c++)
+            for( int c =0; c < CARD_SIZE;c++)
                 {
-                    
+                    (*card).grid[r][c].number = 0;
+                    (*card).grid[r][c].marked = false;
                 }
         }
-    card.numbers[2][2] =-1;
-    card.marked[2][2] = true;
+//free space
+    (*card).grid[2][2].number =-1;
+    (*card).grid[2][2].marked = true;
     
     /* TODO: Initialize card with ID, set all cells unmarked, mark center FREE space */
 }
@@ -38,6 +41,17 @@ void init_card(BingoCard *card, int card_id)
  */
 void mark_number(BingoCard *cards, int num_cards, int drawn_number)
 {
+    for(int i =0; i < num_cards; i++){
+            for(int r = 0; r< CARD_SIZE; r++)
+                {
+                for(int c=0; c<CARD_SIZE; c++)
+                    {
+                        if(cards[i].grid[r][c].number == drawn_number){
+                            cards[i].grid[r][c].marked = true;
+                        }
+                    }
+                }
+    }
     /* TODO: Search all cards for drawn_number and mark it if found */
 }
 
@@ -50,6 +64,11 @@ void mark_number(BingoCard *cards, int num_cards, int drawn_number)
  */
 static bool check_row(const BingoCard *card, int row)
 {
+    for (int c = 0; c < CARD_SIZE; c++){
+        if(!(*card).grid[row][c].marked)
+            return false;
+    }
+    return true;
     /* TODO: Check if all cells in the specified row are marked */
 }
 
@@ -62,6 +81,13 @@ static bool check_row(const BingoCard *card, int row)
  */
 static bool check_column(const BingoCard *card, int col)
 {
+    for(int r = 0; r< CARD_SIZE; r++)
+        {
+            if(!(*card).grid[r][col].marked)
+            {
+                return false;
+            }
+            return true;
     /* TODO: Check if all cells in the specified column are marked */
 }
 
@@ -73,6 +99,19 @@ static bool check_column(const BingoCard *card, int col)
  */
 static bool check_diagonal(const BingoCard *card)
 {
+    bool leftSide = true;
+    bool rightSide = true;
+    for(int i = 0; i < CARD_SIZE; i++){
+        if(!(*card).grid[i][i].marked)
+        {
+            leftSide = false;
+        }
+        if(!(*card).grid[i][CARD_SIZE -1 -i].marked)
+        {
+            rightSide = false;
+        }
+
+        return leftSide || rightSide;
     /* TODO: Check both diagonals for complete marking */
 }
 
@@ -86,6 +125,23 @@ static bool check_diagonal(const BingoCard *card)
  */
 bool check_bingo(const BingoCard *card)
 {
+    for(int r =0; r< CARD_SIZE;r++)
+        {
+            if(check_row(card,r))
+                return true;
+        }
+    for(int c = 0; c < CARD_SIZEl c++)
+        {
+        if(check_column(card, c))
+            return true;
+        }
+    if(check_diagonal(card))
+    {
+        return true;
+    }
+
+    return false;
+    
     /* TODO: Check all rows, columns, and diagonals for a win */
 }
 
@@ -111,7 +167,7 @@ int check_all_cards_for_bingo(const BingoCard *cards, int num_cards)
 void print_card(const BingoCard *card)
 {
     /* TODO: Print card in readable format showing numbers and marked cells */
-    printf("Card %d:\n", card->card_id);
+    printf("Card %d:\n", (*card).card_id);
     printf("  B   I   N   G   O\n");
     printf("-------------------\n");
     
