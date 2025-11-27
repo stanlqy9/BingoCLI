@@ -210,15 +210,49 @@ Read a bingo from a CSV file and turn them into a design that can be used. There
 
 ---
 
-### 🧾 Instructions for Each Team Member
+## 🧪 Test Suite
 
-Each person should:
-1. Write **1–3 paragraphs** per subsection above.
-2. Keep explanations **in plain English** — no code yet.
-3. Focus on describing **behavior, structure, and interaction**, not implementation.
-4. Use bullet points or short paragraphs for clarity.
-5. Commit your design by editing this README and pushing your section to the repo.
+The `tests/` directory contains unit tests for each module. Each test file can be compiled and run independently to verify module functionality.
 
-Once all three modules are described, we’ll review as a group and then move forward to:
-- Coding the modules based on the agreed design
-- Integrating everything in `main.c`
+---
+
+### `test_csv.c` — CSV Module Tests
+
+| Test Function | Description |
+|---------------|-------------|
+| `test_load_valid_file` | Loads cards from `data/cards_sample_1.csv` and verifies count > 0 |
+| `test_load_invalid_file` | Verifies -1 is returned for a nonexistent file |
+| `test_card_structure` | Checks that card IDs are assigned correctly |
+| `test_free_space` | Verifies center cell is -1 (FREE) and pre-marked |
+| `test_card_values` | Validates parsed numbers are in range [1, 75] |
+| `test_multiple_cards` | Tests loading 2 cards with correct values |
+
+---
+
+### `test_draw.c` — Draw Module Tests
+
+| Test Function | Description |
+|---------------|-------------|
+| `test_init_draw_sequence` | Verifies draws are available after initialization |
+| `test_get_next_draw` | Checks returned number is in valid range [1, 75] |
+| `test_unique_draws` | Draws all 75 numbers and verifies no duplicates |
+| `test_has_more_draws` | Tests availability checking before/after draws |
+| `test_exhausted_draws` | Verifies -1 is returned when all numbers are drawn |
+| `test_draw_count` | Tests that draw count increments correctly |
+
+---
+
+### `test_game.c` — Game Module Tests
+
+| Test Function | Description |
+|---------------|-------------|
+| `test_init_card` | Verifies card ID, FREE space at center, and all other cells unmarked |
+| `test_mark_number` | Tests marking a number on multiple matching cells |
+| `test_check_bingo_row` | Detects horizontal (row) bingo |
+| `test_check_bingo_column` | Detects vertical (column) bingo |
+| `test_check_bingo_diagonal` | Detects both main and anti-diagonal bingos |
+| `test_check_bingo_no_win` | Ensures no false positives with scattered marks |
+| `test_check_all_cards` | Tests finding a winner among multiple cards |
+| `test_print_card` | Verifies `print_card` executes without crashing |
+
+---
