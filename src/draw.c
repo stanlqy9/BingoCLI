@@ -17,7 +17,7 @@ static bool initialized = false; // Whether the draw system is ready
  */
 static void shuffle_array(int *array, int size)
 {
-    /* Job: Implement shuffle algorithm */
+    /* TODO: Implement shuffle algorithm */
     // Fisher yates shuffle
 
     // start from last element and move backwards towards index 0
@@ -51,7 +51,7 @@ static void shuffle_array(int *array, int size)
 void init_draw_sequence(void)
 
 {
-    /* Job: Populate draw_pool with 1-75, shuffle, initialize state */
+    /* TODO: Populate draw_pool with 1-75, shuffle, initialize state */
 
     // if initalization has already happened once, do nothing.
     if (initialized)
@@ -100,7 +100,7 @@ void init_draw_sequence(void)
  */
 int get_next_draw(void)
 {
-    /* Job: Return next number from draw_pool and advance index */
+    /* TODO: Return next number from draw_pool and advance index */
     
     // if initalization has already happened once, do nothing.
 
@@ -143,6 +143,19 @@ int get_next_draw(void)
 bool has_more_draws(void)
 {
     /* TODO: Check if there are more numbers to draw */
+
+    // If draw_index has reached BINGO_MAX, we've have used up the entire pool.
+    if(draw_index >= BINGO_MAX){
+        //no more numbers left to draw
+        return false;
+    }else {
+        //numbers still left to draw
+        return true;
+    }
+    /*
+    - When draw_index equals or exceeds BINGO_MAX, all draws are finished.
+    - Otherwise, at east one draw is left 
+     */
 }
 
 /**
@@ -153,4 +166,14 @@ bool has_more_draws(void)
 int get_draw_count(void)
 {
     /* TODO: Return how many draws have been made */
+    return draw_index;
+
+    /*
+    - draw_index stores how many draws have happend. 
+    - return the current draw count
+    
+    */
+
+
+
 }
