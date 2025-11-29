@@ -10,6 +10,7 @@
  */
 static int test_init_draw_sequence(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     if (!has_more_draws()) {
@@ -28,6 +29,7 @@ static int test_init_draw_sequence(void)
  */
 static int test_get_next_draw(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     int num = get_next_draw();
@@ -48,6 +50,7 @@ static int test_get_next_draw(void)
  */
 static int test_unique_draws(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     int seen[BINGO_MAX + 1] = {0};
@@ -84,6 +87,7 @@ static int test_unique_draws(void)
  */
 static int test_has_more_draws(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     if (!has_more_draws()) {
@@ -109,6 +113,7 @@ static int test_has_more_draws(void)
  */
 static int test_exhausted_draws(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     for (int i = 0; i < BINGO_MAX; i++) {
@@ -137,6 +142,7 @@ static int test_exhausted_draws(void)
  */
 static int test_draw_count(void)
 {
+    reset_draw_sequence();
     init_draw_sequence();
     
     int initial_count = get_draw_count();

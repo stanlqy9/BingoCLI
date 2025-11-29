@@ -89,10 +89,6 @@ static int read_cell(FILE *fp, char *buffer, int max_len, int *end_of_row) {
     return 0;
 }
 
-static int parse_card_row(char *line, BingoCard *card, int row) {
-    return -1;
-}
-
 static int skip_header_line(FILE *fp) {
     char cell[CELL_MAX];
     int end_row;

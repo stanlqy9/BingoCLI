@@ -21,7 +21,7 @@ static void shuffle_array(int *array, int size)
     // Fisher yates shuffle
 
     // start from last element and move backwards towards index 0
-    for (int i = size - 1; i > 0; i++)
+    for (int i = size - 1; i > 0; i--)
     {
 
         // picking a random index(j) from 0 to i
@@ -88,6 +88,12 @@ void init_draw_sequence(void)
     -runs only one per program excecution in order to avoid,
     rerandomizing an already initalozed sequence.
     */
+}
+
+void reset_draw_sequence(void)
+{
+    initialized = false;
+    draw_index = 0;
 }
 
 /**
