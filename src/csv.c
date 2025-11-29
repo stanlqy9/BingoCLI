@@ -5,128 +5,183 @@
 #include "../include/csv.h"
 
 #define MAX_LINE_LENGTH 256
+#define CELL_MAX 32
 
-/**
- * trim_whitespace - Remove leading and trailing whitespace from a string
- * @str: The string to trim (modified in place)
- *
- * Helper function to clean up CSV field values.
- */
-static void trim_whitespace(char *str)
-{
-    /* TODO: Remove leading and trailing whitespace from string */
+static void trim_whitespace(char *str) {
+    int i = 0;
+    int j = 0;
+
+    while (str[i] != '\0' && isspace(str[i])) i++;
+
+    while (str[i] != '\0') {
+        str[j] = str[i];
+        j++;
+        i++;
+    }
+
+    str[j] = '\0';
+    j--;
+
+    while (j >= 0 && isspace(str[j])) {
+        str[j] = '\0';
+        j--;
+    }
 }
 
-/**
- * is_free_space - Check if a string represents a FREE space
- * @str: The string to check
- *
- * Return: true if the string is "FREE" (case-insensitive), false otherwise
- */
-static bool is_free_space(const char *str)
-{
-    /* TODO: Check if string is "FREE" (case-insensitive) */
+static bool is_free_space(const char *str) {
+    if ((str[0] == 'F' || str[0] == 'f') &&
+        (str[1] == 'R' || str[1] == 'r') &&
+        (str[2] == 'E' || str[2] == 'e') &&
+        (str[3] == 'E' || str[3] == 'e') &&
+        str[4] == '\0') {
+        return true;
+    }
+    return false;
 }
 
-/**
- * parse_cell_value - Parse a single CSV cell value into a number
- * @str: The string to parse
- * @value: Pointer to store the parsed integer value
- *
- * Handles both numeric values and the special "FREE" space.
- * FREE space should be represented as -1.
- *
- * Return: 0 on success, -1 on error
- */
-static int parse_cell_value(const char *str, int *value)
-{
-    /* TODO: Parse string as number or FREE (-1), validate range, return status */
+static int parse_cell_value(const char *str, int *value) {
+    int i = 0;
+    int num = 0;
+
+    if (is_free_space(str)) {
+        *value = -1;
+        return 0;
+    }
+
+    if (str[0] == '\0') return -1;
+
+    while (str[i] != '\0') {
+        if (!isdigit(str[i])) return -1;
+        num = num * 10 + (str[i] - '0');
+        i++;
+    }
+
+    if (num < 1 || num > 75) return -1;
+
+    *value = num;
+    return 0;
 }
 
-/**
- * parse_card_row - Parse a single row of a Bingo card
- * @line: CSV line containing comma-separated values
- * @card: Pointer to the BingoCard being built
- * @row: Row index (0-4)
- *
- * Parses a CSV line and populates one row of the card grid.
- * Expected format: "num,num,num,num,num" or "num,num,FREE,num,num"
- *
- * Return: 0 on success, -1 on error
- */
-static int parse_card_row(char *line, BingoCard *card, int row)
-{
-    /* TODO: Split line by commas, parse 5 values, populate card grid row */
+static int read_cell(FILE *fp, char *buffer, int max_len, int *end_of_row) {
+    int c;
+    int i = 0;
+    *end_of_row = 0;
+
+    c = fgetc(fp);
+    while (c == ' ' || c == '\t') c = fgetc(fp);
+
+    if (c == EOF) return -1;
+
+    while (c != ',' && c != '\n' && c != EOF) {
+        if (i < max_len - 1) {
+            buffer[i] = (char)c;
+            i++;
+        }
+        c = fgetc(fp);
+    }
+
+    if (c == '\n') *end_of_row = 1;
+
+    buffer[i] = '\0';
+
+    if (i == 0) return -1;
+
+    return 0;
 }
 
-/**
- * skip_header_line - Skip a header line (B,I,N,G,O)
- * @fp: File pointer
- *
- * Reads and discards the B,I,N,G,O header line.
- *
- * Return: 0 on success, -1 on error
- */
-static int skip_header_line(FILE *fp)
-{    
-    /* TODO: Read and discard the B,I,N,G,O header line */
+static int parse_card_row(char *line, BingoCard *card, int row) {
+    return -1;
 }
 
-/**
- * skip_empty_lines - Skip blank lines and comments
- * @fp: File pointer
- *
- * Advances the file pointer past empty lines and comment lines (starting with #).
- * Leaves the file positioned at the next meaningful line.
- */
-static void skip_empty_lines(FILE *fp)
-{
-    /* TODO: Advance file pointer past blank lines and comments */
+static int skip_header_line(FILE *fp) {
+    char cell[CELL_MAX];
+    int end_row;
+    int col;
+
+    for (col = 0; col < CARD_SIZE; col++) {
+        if (read_cell(fp, cell, CELL_MAX, &end_row) != 0) return -1;
+        if (col < CARD_SIZE - 1 && end_row) return -1;
+    }
+    return 0;
 }
 
-/**
- * load_single_card - Load one complete Bingo card from file
- * @fp: File pointer positioned at start of card
- * @card: Pointer to BingoCard structure to populate
- * @card_id: ID number for this card
- *
- * Reads a complete card including header and 5 data rows.
- * Expected format:
- *   # CARD N 
- *   B,I,N,G,O
- *   row1...
- *   row2...
- *   row3...
- *   row4...
- *   row5...
- *
- * Return: 0 on success, -1 on error or EOF
- */
-static int load_single_card(FILE *fp, BingoCard *card, int card_id)
-{
-    /* TODO: Read header and 5 rows from file, populate card structure */
+static void skip_empty_lines(FILE *fp) {
+    int c = fgetc(fp);
+    while (c == '\n' || c == '\r') c = fgetc(fp);
+    if (c != EOF) ungetc(c, fp);
 }
 
-/**
- * load_cards_from_csv - Load all Bingo cards from a CSV file
- * @filename: Path to the CSV file
- * @cards: Array to store loaded BingoCard structures
- * @max_cards: Maximum number of cards the array can hold
- *
- * Loads all cards from the specified CSV file. The file format should be:
- *   # CARD 1
- *   B,I,N,G,O
- *   (5 rows of numbers)
- *   
- *   # CARD 2
- *   B,I,N,G,O
- *   (5 rows of numbers)
- *   ...
- *
- * Return: Number of cards successfully loaded, or -1 on error
- */
-int load_cards_from_csv(const char *filename, BingoCard *cards, int max_cards)
-{
-    /* TODO: Open file, loop to load all cards, handle errors, return count */
+static int load_single_card(FILE *fp, BingoCard *card, int card_id) {
+    int c;
+    int r;
+    int col;
+    int value;
+    int end;
+    char cell[CELL_MAX];
+
+    c = fgetc(fp);
+    if (c == EOF) return -1;
+
+    while (c != '#' && c != EOF) {
+        while (c != '\n' && c != EOF) c = fgetc(fp);
+        if (c == EOF) return -1;
+        c = fgetc(fp);
+    }
+
+    if (c == EOF) return -1;
+
+    while (c != '\n' && c != EOF) c = fgetc(fp);
+
+    if (skip_header_line(fp) != 0) return -1;
+
+    (*card).card_id = card_id;
+
+    for (r = 0; r < CARD_SIZE; r++) {
+        for (col = 0; col < CARD_SIZE; col++) {
+            (*card).grid[r][col].number = 0;
+            (*card).grid[r][col].marked = false;
+        }
+    }
+
+    for (r = 0; r < CARD_SIZE; r++) {
+        for (col = 0; col < CARD_SIZE; col++) {
+            if (read_cell(fp, cell, CELL_MAX, &end) != 0) return -1;
+
+            trim_whitespace(cell);
+            if (parse_cell_value(cell, &value) != 0) return -1;
+
+            (*card).grid[r][col].number = value;
+            (*card).grid[r][col].marked = (value == -1);
+
+            if (col < CARD_SIZE - 1 && end) return -1;
+        }
+    }
+
+    (*card).grid[2][2].number = -1;
+    (*card).grid[2][2].marked = true;
+
+    return 0;
 }
 
+int load_cards_from_csv(const char *filename, BingoCard *cards, int max_cards) {
+    FILE *fp = fopen(filename, "r");
+    int count = 0;
+    int r;
+
+    if (fp == NULL) return -1;
+
+    skip_empty_lines(fp);
+
+    while (count < max_cards) {
+        r = load_single_card(fp, &cards[count], count + 1);
+        if (r != 0) break;
+        count++;
+        skip_empty_lines(fp);
+    }
+
+    fclose(fp);
+
+    if (count == 0) return -1;
+
+    return count;
+}
