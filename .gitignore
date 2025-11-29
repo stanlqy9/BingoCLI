@@ -8,14 +8,8 @@ test_csv
 test_draw
 test_game
 
-# debug files
-*.dSYM/
-
 # editor/IDE
 .vscode/
-.idea/
-*.swp
-*.swo
 *~
 
 # macOS
