@@ -38,20 +38,26 @@ No external libraries or frameworks.
 
 ```text
 BingoCLI/
-├─ src/
-│  ├─ main.c        // CLI entry point
-│  ├─ csv.c         // Read and validate Bingo cards from CSV
-│  ├─ game.c        // Card logic: marking and Bingo detection
-│  ├─ draw.c        // RNG and draw sequence generation
-├─ include/         // Core structs, constants, shared prototypes
-├─ data/
-│  ├─ cards_sample_1.csv
-├─ tests/
-│  ├─ test_csv.c
-│  ├─ test_game.c
-│  └─ test_draw.c
-├─ Makefile
-└─ README.md
+├── src/
+│   ├── main.c        // CLI entry point
+│   ├── csv.c         // Read and validate Bingo cards from CSV
+│   ├── game.c        // Card logic: marking and Bingo detection
+│   └── draw.c        // RNG and draw sequence generation
+├── include/
+│   ├── types.h       // BingoCard and Cell structures, constants
+│   ├── csv.h         // CSV loading function prototypes
+│   ├── game.h        // Game logic function prototypes
+│   └── draw.h        // Draw system function prototypes
+├── data/
+│   └── cards_sample_1.csv   // Sample Bingo cards (4 cards)
+├── tests/
+│   ├── test_csv.c    // Unit tests for CSV module
+│   ├── test_game.c   // Unit tests for game module
+│   └── test_draw.c   // Unit tests for draw module
+├── obj/              // Object files (.o) generated during compilation
+├── Makefile          // Build automation
+├── .gitignore        // Git ignore patterns
+└── README.md         // Project documentation
 ```
 
 
