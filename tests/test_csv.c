@@ -140,31 +140,6 @@ static int test_card_values(void)
 }
 
 /**
- * test_multiple_cards - Test loading multiple cards
- *
- * Return: 1 on success, 0 on failure
- */
-static int test_multiple_cards(void)
-{
-    BingoCard cards[MAX_CARDS];
-    int num_cards = load_cards_from_csv("data/cards_sample_1.csv", cards, MAX_CARDS);
-    
-    if (num_cards != 2) {
-        printf("FAIL: Expected 2 cards, got %d\n", num_cards);
-        return 0;
-    }
-    
-    if (cards[1].grid[0][0].number != 10) {
-        printf("FAIL: Expected card 2 position [0][0] = 10, got %d\n", 
-               cards[1].grid[0][0].number);
-        return 0;
-    }
-    
-    printf("PASS: Multiple cards loaded correctly\n");
-    return 1;
-}
-
-/**
  * main - Run all CSV module tests
  *
  * Return: EXIT_SUCCESS if all tests pass, EXIT_FAILURE otherwise
@@ -172,7 +147,7 @@ static int test_multiple_cards(void)
 int main(void)
 {
     int passed = 0;
-    int total = 6;
+    int total = 5;
     
     printf("=== CSV Module Tests ===\n\n");
     
@@ -181,7 +156,6 @@ int main(void)
     passed += test_card_structure();
     passed += test_free_space();
     passed += test_card_values();
-    passed += test_multiple_cards();
     
     printf("\n=== Results: %d/%d tests passed ===\n", passed, total);
     

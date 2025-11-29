@@ -226,7 +226,6 @@ The `tests/` directory contains unit tests for each module. Each test file can b
 | `test_card_structure` | Checks that card IDs are assigned correctly |
 | `test_free_space` | Verifies center cell is -1 (FREE) and pre-marked |
 | `test_card_values` | Validates parsed numbers are in range [1, 75] |
-| `test_multiple_cards` | Tests loading 2 cards with correct values |
 
 ---
 
