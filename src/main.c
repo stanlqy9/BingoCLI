@@ -6,12 +6,6 @@
 #include "../include/game.h"
 #include "../include/draw.h"
 
-/**
- * print_usage - Display usage information
- * @program_name: Name of the program executable
- *
- * Prints command-line usage help to stderr.
- */
 static void print_usage(const char *program_name)
 {
     fprintf(stderr, "Usage: %s <csv_file>\n", program_name);
@@ -23,16 +17,6 @@ static void print_usage(const char *program_name)
     fprintf(stderr, "  %s data/cards_sample_1.csv\n", program_name);
 }
 
-/**
- * parse_arguments - Parse and validate command line arguments
- * @argc: Argument count
- * @argv: Argument vector
- * @filename: Pointer to store the CSV filename
- *
- * Parses command line arguments and validates them.
- *
- * Return: 0 on success, -1 on error
- */
 static int parse_arguments(int argc, char *argv[], char **filename)
 {
     if (argc != 2) {
@@ -43,16 +27,6 @@ static int parse_arguments(int argc, char *argv[], char **filename)
     return 0;
 }
 
-/**
- * play_game - Run the main game loop
- * @cards: Array of loaded Bingo cards
- * @num_cards: Number of cards in the array
- *
- * Runs the game loop: draws numbers, marks cards, checks for winners.
- * Continues until a Bingo is detected or all numbers are drawn.
- *
- * Return: 0 on success, -1 on error
- */
 static int play_game(BingoCard *cards, int num_cards)
 {
     int draw_count = 0;
@@ -85,20 +59,6 @@ static int play_game(BingoCard *cards, int num_cards)
     return 0;
 }
 
-/**
- * main - Entry point for BingoCLI
- * @argc: Argument count
- * @argv: Argument vector
- *
- * Main program flow:
- * 1. Parse command line arguments
- * 2. Load Bingo cards from CSV file
- * 3. Initialize draw sequence
- * 4. Run game loop until winner or all draws exhausted
- * 5. Display results
- *
- * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error
- */
 int main(int argc, char *argv[])
 {
     char *filename;

@@ -9,5 +9,5 @@ int get_next_draw(void);
 bool has_more_draws(void);
 int get_draw_count(void);
 
-#endif /* DRAW_H */
+#endif 
 

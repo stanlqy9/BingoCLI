@@ -27,7 +27,6 @@ void init_card(BingoCard *card, int card_id)
     (*card).grid[2][2].number =-1;
     (*card).grid[2][2].marked = true;
     
-    /* TODO: Initialize card with ID, set all cells unmarked, mark center FREE space */
 }
 
 /**
@@ -52,7 +51,6 @@ void mark_number(BingoCard *cards, int num_cards, int drawn_number)
                     }
                 }
     }
-    /* TODO: Search all cards for drawn_number and mark it if found */
 }
 
 /**
@@ -69,7 +67,6 @@ static bool check_row(const BingoCard *card, int row)
             return false;
     }
     return true;
-    /* TODO: Check if all cells in the specified row are marked */
 }
 
 /**
@@ -89,7 +86,6 @@ static bool check_column(const BingoCard *card, int col)
             }
         }
             return true;
-    /* TODO: Check if all cells in the specified column are marked */
 }
 
 /**
@@ -144,7 +140,6 @@ bool check_bingo(const BingoCard *card)
 
     return false;
     
-    /* TODO: Check all rows, columns, and diagonals for a win */
 }
 
 /**
@@ -162,7 +157,6 @@ int check_all_cards_for_bingo(const BingoCard *cards, int num_cards)
         }
     }
     return -1;
-    /* TODO: Check all cards and return index of first winner, or -1 */
 }
 
 /**
@@ -174,7 +168,6 @@ int check_all_cards_for_bingo(const BingoCard *cards, int num_cards)
  */
 void print_card(const BingoCard *card)
 {
-    /* TODO: Print card in readable format showing numbers and marked cells */
     printf("Card %d:\n", (*card).card_id);
     printf("  B   I   N   G   O\n");
     printf("-------------------\n");

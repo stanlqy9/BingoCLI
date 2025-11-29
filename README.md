@@ -54,6 +54,7 @@ BingoCLI/
 └─ README.md
 ```
 
+
 ## 🧩 Module Design Descriptions (High-Level Only)
 
 Before coding begins, each team member will write a short **high-level design** explaining how their assigned module will work.  
@@ -254,5 +255,28 @@ The `tests/` directory contains unit tests for each module. Each test file can b
 | `test_check_bingo_no_win` | Ensures no false positives with scattered marks |
 | `test_check_all_cards` | Tests finding a winner among multiple cards |
 | `test_print_card` | Verifies `print_card` executes without crashing |
+
+---
+
+---
+
+## 🛠️ Building & Running
+
+Use the provided Makefile to build and run the project:
+
+| Target | Command | Description |
+|--------|---------|-------------|
+| `all` | `make` or `make all` | Compiles all source files and creates the `bingo` executable |
+| `run` | `make run` | Builds the program (if needed) and runs it with `data/cards_sample_1.csv` |
+| `test` | `make test` | Builds and runs all three test suites (csv, draw, game) |
+| `clean` | `make clean` | Removes all object files, the main executable, and test executables |
+
+**Usage examples:**
+```bash
+make              # Build the program
+make run          # Build and run with sample data
+make test         # Build and run all tests
+make clean        # Remove all compiled files
+```
 
 ---

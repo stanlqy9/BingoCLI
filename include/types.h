@@ -21,5 +21,5 @@ typedef struct {
     int card_id;                       // Unique identifier for this card
 } BingoCard;
 
-#endif /* TYPES_H */
+#endif 
 
