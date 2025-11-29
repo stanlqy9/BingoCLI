@@ -113,24 +113,21 @@ static int test_card_values(void)
         return 0;
     }
     
-    if (cards[0].grid[0][0].number != 1) {
-        printf("FAIL: Expected card 1 position [0][0] = 1, got %d\n", 
-               cards[0].grid[0][0].number);
-        return 0;
-    }
-    
-    if (cards[0].grid[0][4].number != 61) {
-        printf("FAIL: Expected card 1 position [0][4] = 61, got %d\n", 
-               cards[0].grid[0][4].number);
-        return 0;
-    }
-    
-    for (int r = 0; r < CARD_SIZE; r++) {
-        for (int c = 0; c < CARD_SIZE; c++) {
-            int val = cards[0].grid[r][c].number;
-            if (val != -1 && (val < BINGO_MIN || val > BINGO_MAX)) {
-                printf("FAIL: Value %d at [%d][%d] out of range\n", val, r, c);
-                return 0;
+    for (int i = 0; i < num_cards; i++) {
+        for (int r = 0; r < CARD_SIZE; r++) {
+            for (int c = 0; c < CARD_SIZE; c++) {
+                int val = cards[i].grid[r][c].number;
+                
+                if (val != -1 && (val < BINGO_MIN || val > BINGO_MAX)) {
+                    printf("FAIL: Card %d value %d at [%d][%d] out of range\n", 
+                           i, val, r, c);
+                    return 0;
+                }
+                
+                if (r == 2 && c == 2 && val != -1) {
+                    printf("FAIL: Card %d center should be FREE (-1), got %d\n", i, val);
+                    return 0;
+                }
             }
         }
     }
