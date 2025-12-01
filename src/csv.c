@@ -39,6 +39,7 @@ static bool is_free_space(const char *str) {
     return false;
 }
 
+//convert a cell string to a number
 static int parse_cell_value(const char *str, int *value) {
     int i = 0;
     int num = 0;
