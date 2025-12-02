@@ -117,7 +117,7 @@ The `game.c` module will use the numbers to mark spaces on the Bingo cards, whil
 **Owner:** Ryan  
 
 #### 🧠 Purpose
-Describe the overall goal of this module (e.g., handling game state, marking numbers, checking for Bingo).
+The Overall purpose of Game.c is to take care of the core logic of the Bingo Game. this would include setting up each bingo card in a 5x5 format, Marking numbers whenever a number is drawn, cheacking for any winner (rows,columns, diagonal), and outputting a winner. 
 
 #### 📥 Inputs / 📤 Outputs
 - What data does this module receive? (e.g., card data, drawn numbers)
