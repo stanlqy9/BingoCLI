@@ -117,26 +117,26 @@ The `game.c` module will use the numbers to mark spaces on the Bingo cards, whil
 **Owner:** Ryan  
 
 #### 🧠 Purpose
-The Overall purpose of Game.c is to take care of the core logic of the Bingo Game. this would include setting up each bingo card in a 5x5 format, Marking numbers whenever a number is drawn, cheacking for any winner (rows,columns, diagonal), and outputting a winner. 
+The Overall purpose of Game.c is to take care of the core logic of the Bingo Game. this would include setting up each bingo card in a 5x5 format, marking numbers whenever a number is drawn, checking for any winner (rows,columns, diagonal), and outputting a winner. 
 
 #### 📥 Inputs / 📤 Outputs
-- What data does this module receive? (e.g., card data, drawn numbers)
-- What results does it return? (e.g., Bingo detected, card index)
+What data does this module receive? (e.g., card data, drawn numbers)
+What results does it return? (e.g., Bingo detected, card index)
 
 - Input:
-- It recieves bingo card structure from csv.c
-- The current number that is drawn from draw.c
+  It recieves bingo card structure from csv.c
+  The current number that is drawn from draw.c
 
 - Output:
-- A Bingo or Loss
-- The card being updated when a number is marked
+  A Bingo or Loss
+ The card being updated when a number is marked
 
 #### ⚙️ Internal Design (High-Level)
 - How will Bingo cards and marked states be represented conceptually?
 - How will marking work when a number is drawn?
 - How will the module detect Bingo (rows, columns, diagonals)?
 - How will it track the overall game status or winning card?
-- Bingo Cards will be represented as a 5x5 array of numbers with another 5x5 boolean array that marks whether a number has been drawn.
+- Bingo Cards will be represented as a 5x5 array of numbers that marks whether a number has been drawn.
 - When a number is drawn, it will scan all the cards and mark any of them true.
 - It will detect a Bingo by:
 - Checking the Rows: check to see if 5 are marked(same with the others)
